@@ -11,7 +11,7 @@ where
 
 
 import Cards
-import Control.Applicative ((<$>), Applicative)
+import Control.Applicative (Applicative)
 import Control.Lens
 import Control.Monad.State (State)
 import qualified Data.List as L
@@ -65,10 +65,10 @@ doSnap p g=
           & snapStack .~ [] 
 
 playerHasPenalty :: Player -> GameState -> Bool
-playerHasPenalty p g = M.fromMaybe False $ g ^? (penaltyLens p)
+playerHasPenalty p g = M.fromMaybe False $ g ^? penaltyLens p
 
 givePenalty :: Player -> GameState -> GameState
-givePenalty p g = g & (penaltyLens p) .~ True
+givePenalty p g = g & penaltyLens p .~ True
 
 penaltyLens :: Applicative f => Player -> (Bool -> f Bool) -> GameState -> f GameState
 penaltyLens p =  gamePlayers . at p . _Just . penalised
