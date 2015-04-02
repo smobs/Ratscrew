@@ -11,15 +11,14 @@ where
 
 
 import Cards
+import Control.Applicative ((<$>), Applicative)
 import Control.Lens
-import Control.Monad.RWS (gets, modify)
 import Control.Monad.State (State)
+import qualified Data.List as L
 import qualified Data.Map as Map
 import Data.Map.Lazy (Map)
 import qualified Data.Maybe as M
 import Types
-import qualified Data.List as L
-import Control.Applicative ((<$>))
 
 data PlayerState = PlayerState {_penalised :: Bool,
                                 _playerStack :: [Card]
@@ -66,14 +65,16 @@ doSnap p g=
           & snapStack .~ [] 
 
 playerHasPenalty :: Player -> GameState -> Bool
-playerHasPenalty p g = M.fromMaybe False $ g ^? gamePlayers . at p . _Just . penalised 
- 
-                    
+playerHasPenalty p g = M.fromMaybe False $ g ^? (penaltyLens p)
+
 givePenalty :: Player -> GameState -> GameState
-givePenalty p = id
-               
+givePenalty p g = g & (penaltyLens p) .~ True
+
+penaltyLens :: Applicative f => Player -> (Bool -> f Bool) -> GameState -> f GameState
+penaltyLens p =  gamePlayers . at p . _Just . penalised
+
 hasSnap :: GameState -> Bool
-hasSnap _ = True
+hasSnap  = not . null . view snapStack 
                  
 playCard' :: Player -> GameState -> GameState
 playCard' p g = let c = playerTopCard p g in
@@ -96,8 +97,6 @@ removePlayerTopCard p g = g & gamePlayers %~ Map.adjust removeCard p
                       
 addToStack :: Card -> GameState -> GameState
 addToStack c = snapStack %~ (c :)
-             
-         
 
 gameView' :: GameState -> GameView
 gameView' g = GameView
@@ -113,11 +112,22 @@ playerView :: (Player, PlayerState) -> PlayerView
 playerView = undefined
 
 getWinner :: GameState -> Maybe Player
-getWinner _ = Nothing
+getWinner g =
+    if hasSnap g then Nothing else
+        anyWinners $  g ^. gamePlayers  
       
 newPlayers :: [Player] -> Deck -> Map Player PlayerState
 newPlayers ps d = let i = length ps in
                   (Map.fromList . zip ps) (map  newPlayerState (dealHands i d))
+
+anyWinners :: Map Player PlayerState -> Maybe Player
+anyWinners =
+    let singleElement [x] = Just x
+        singleElement _ = Nothing in
+       singleElement . Map.keys . Map.filter hasCards 
+             
+hasCards :: PlayerState -> Bool 
+hasCards = not . null . view playerStack 
 
 dealHands :: Int -> Deck -> [[Card]]
 dealHands i = map (map snd)
