@@ -9,6 +9,7 @@ cabal.mkDerivation (self: {
   isLibrary = false;
   isExecutable = true;
   buildDepends = [ mtl lens ];
+  testDepends = [ tasty tastyHunit tastyQuickcheck ];
   meta = {
     license = self.stdenv.lib.licenses.mit;
     platforms = self.ghc.meta.platforms;
