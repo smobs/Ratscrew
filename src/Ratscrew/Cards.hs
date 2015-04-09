@@ -1,4 +1,4 @@
-module Cards where
+module Ratscrew.Cards where
     
 data Rank = Ace | Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten | Jack | Queen | King
           deriving (Show, Bounded, Enum, Eq, Ord)

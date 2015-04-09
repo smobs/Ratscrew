@@ -1,9 +1,9 @@
 module Main where
 import Test.Tasty 
-import qualified GameTests
+import qualified Ratscrew.Game.Tests
     
 main :: IO ()
 main = defaultMain $ testGroup "Tests" [
-        GameTests.tests
+        Ratscrew.Game.Tests.tests
        ]
 

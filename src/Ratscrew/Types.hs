@@ -1,6 +1,6 @@
-module Types where
+module Ratscrew.Types where
     
-import Cards
+import Ratscrew.Cards
 
 data Player = Player {
            playerID :: String

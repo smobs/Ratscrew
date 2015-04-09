@@ -6,8 +6,8 @@ import Control.Monad.Identity (Identity, runIdentity)
 import Control.Monad.RWS (get)
 import Control.Monad.State (State, StateT, mapStateT)
 import Control.Monad.State (evalStateT)
-import Game
-import Types
+import Ratscrew.Game
+import Ratscrew.Types
 
 type ConsoleView = String
 

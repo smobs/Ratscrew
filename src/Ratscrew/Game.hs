@@ -1,6 +1,7 @@
 {-# LANGUAGE TemplateHaskell, RecordWildCards #-}
-module Game
+module Ratscrew.Game
     (
+     module Ratscrew.Types,
      attemptSnap,
      gameView,
      playCard,
@@ -10,7 +11,7 @@ module Game
 where
 
 
-import Cards
+import Ratscrew.Cards
 import Control.Applicative (Applicative)
 import Control.Lens
 import Control.Monad.State (State)
@@ -18,7 +19,7 @@ import qualified Data.List as L
 import qualified Data.Map as Map
 import Data.Map.Lazy (Map)
 import qualified Data.Maybe as M
-import Types
+import Ratscrew.Types
 
 data PlayerState = PlayerState {_penalised :: Bool,
                                 _playerStack :: [Card]
