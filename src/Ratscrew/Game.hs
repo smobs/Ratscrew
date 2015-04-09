@@ -10,7 +10,6 @@ module Ratscrew.Game
     )
 where
 
-
 import Ratscrew.Cards
 import Control.Applicative (Applicative)
 import Control.Lens
@@ -41,7 +40,7 @@ makeLenses ''Game
                     
 attemptSnap :: Player -> State Game ()
 attemptSnap = withGameState attemptSnap'
-
+              
 playCard :: Player -> State Game ()
 playCard = withGameState playCard'
 

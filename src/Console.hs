@@ -4,10 +4,8 @@ module Main where
 import Control.Monad.Cont (liftIO)
 import Control.Monad.Identity (Identity, runIdentity)
 import Control.Monad.RWS (get)
-import Control.Monad.State (State, StateT, mapStateT)
-import Control.Monad.State (evalStateT)
+import Control.Monad.State (State, StateT, mapStateT, evalStateT)
 import Ratscrew.Game
-import Ratscrew.Types
 
 type ConsoleView = String
 
@@ -29,7 +27,7 @@ stateLift = mapStateT (return . runIdentity)
             
 printView :: Game -> IO ()
 printView = putStrLn . consoleView .  gameView
-            
+
 consoleView :: GameView -> ConsoleView
 consoleView g@(GameView {..}) = maybe (inProgressView g) (("The winner is " ++) . show) gameWinner
 
