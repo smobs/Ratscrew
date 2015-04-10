@@ -109,7 +109,7 @@ gameView' g = GameView
           []
           
 playerView :: (Player, PlayerState) -> PlayerView
-playerView = undefined
+playerView (p,s) = PlayerView p (length $ s ^. playerStack) (s ^. penalised) 
 
 getWinner :: GameState -> Maybe Player
 getWinner g =

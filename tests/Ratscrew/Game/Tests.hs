@@ -11,9 +11,11 @@ tests = testGroup "Game Tests" [
 
 
 unitTests :: TestTree
-unitTests = testGroup "Unit Tests" [
-             testCase "New Game has an empty stack" $
-                      let game = gameView $ newGame 
-                                 [Player "Toby", Player "Mike"] in
-                      assertEqual "New game has no winner" Nothing (gameWinner game)  
+unitTests = let testPlayers = [Player "aToby", Player "Mike"]
+                game = gameView $ newGame testPlayers in 
+                            testGroup "Unit Tests" 
+            [ testCase "New Game has no winner" $
+                       assertEqual "New game has no winner" Nothing (gameWinner game)  
+            , testCase "View has all players" $
+                       assertEqual "Same players" (reverse testPlayers) $ map player (players game)
             ]
