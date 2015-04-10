@@ -4,7 +4,7 @@ module Main where
 import Control.Monad.Cont (liftIO)
 import Control.Monad.Identity (Identity, runIdentity)
 import Control.Monad.RWS (get)
-import Control.Monad.State (State, StateT, mapStateT, evalStateT)
+import Control.Monad.State (State, StateT, mapStateT, evalStateT, modify)
 import Ratscrew.Game
 
 type ConsoleView = String
@@ -41,10 +41,10 @@ gameAction c = do
   return $ getWinner g
             
 gameAction' :: Char -> State Game ()
-gameAction' 'q' = playCard toby
-gameAction' 'w' = attemptSnap toby
-gameAction' 'o' = playCard mike
-gameAction' 'p' = attemptSnap mike
+gameAction' 'q' = modify $ playCard toby
+gameAction' 'w' = modify $ attemptSnap toby
+gameAction' 'o' = modify $ playCard mike
+gameAction' 'p' = modify $ attemptSnap mike
 gameAction' _ = return ()
 
 

@@ -38,10 +38,10 @@ makeLenses ''GameState
 makeLenses ''Game
 
                     
-attemptSnap :: Player -> State Game ()
+attemptSnap :: Player -> Game -> Game
 attemptSnap = withGameState attemptSnap'
               
-playCard :: Player -> State Game ()
+playCard :: Player -> Game -> Game
 playCard = withGameState playCard'
 
 gameView :: Game -> GameView
@@ -139,5 +139,5 @@ newPlayerState :: [Card] -> PlayerState
 newPlayerState = PlayerState False
 
 
-withGameState ::(a -> GameState -> GameState) -> a -> State Game () 
-withGameState f p = gameState %= f p
+withGameState ::(a -> GameState -> GameState) -> a -> Game -> Game 
+withGameState f p = gameState %~ f p
