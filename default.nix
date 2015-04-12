@@ -3,7 +3,7 @@
 }:
 mkDerivation {
   pname = "Ratscrew";
-  version = "0.1.0.0";
+  version = "0.1.0.4";
   src = ./.;
   isLibrary = true;
   isExecutable = true;

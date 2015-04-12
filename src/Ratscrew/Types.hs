@@ -1,6 +1,8 @@
+{-# LANGUAGE DeriveDataTypeable#-}
 module Ratscrew.Types where
     
 import Ratscrew.Cards
+import Data.Typeable
 
 data Player = Player {
            playerID :: String
@@ -23,4 +25,4 @@ data GameView = GameView {
              currentPlayer :: Maybe Player,
              playLog :: [String]
            }
-              deriving Show
+              deriving (Show, Typeable)
