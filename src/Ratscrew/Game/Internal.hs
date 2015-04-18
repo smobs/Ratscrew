@@ -30,10 +30,10 @@ data GameState = MkGameState {
 makeLenses ''PlayerState
 makeLenses ''GameState
 
-attemptSnap' :: Player -> GameState -> GameState
-attemptSnap' p g
+attemptSnap' :: ([Card] -> Bool) -> Player -> GameState -> GameState
+attemptSnap' f p g
                  | playerHasPenalty p g = g 
-                 | not $ hasSnap g = givePenalty p g 
+                 | not $ hasSnap f g = givePenalty p g 
                  | otherwise =  doSnap p g
                
 
@@ -52,8 +52,8 @@ givePenalty p g = g & penaltyLens p .~ True
 penaltyLens :: Applicative f => Player -> (Bool -> f Bool) -> GameState -> f GameState
 penaltyLens p =  gamePlayers . at p . _Just . penalised
 
-hasSnap :: GameState -> Bool
-hasSnap  = not . null . view snapStack 
+hasSnap :: ([Card] -> Bool) -> GameState -> Bool
+hasSnap  f = f . view snapStack
                  
 playCard' :: Player -> GameState -> GameState
 playCard' p g = let c = playerTopCard p g in
@@ -91,9 +91,7 @@ playerView :: (Player, PlayerState) -> PlayerView
 playerView (p,s) = PlayerView p (length $ s ^. playerStack) (s ^. penalised) 
 
 getWinner :: GameState -> Maybe Player
-getWinner g =
-    if hasSnap g then Nothing else
-        anyWinners $  g ^. gamePlayers  
+getWinner g =  anyWinners $  g ^. gamePlayers  
       
 newPlayers :: [Player] -> Deck -> Map Player PlayerState
 newPlayers ps d = let i = length ps in

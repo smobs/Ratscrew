@@ -15,6 +15,7 @@ import Control.Lens
 import Ratscrew.Types
 import Data.Typeable
 import Ratscrew.Game.Internal
+import Ratscrew.Game.Internal.Snapping as Snapping
 
 newtype Game = Game {_gameState :: GameState}
     deriving Typeable
@@ -22,7 +23,7 @@ newtype Game = Game {_gameState :: GameState}
 makeLenses ''Game
                     
 attemptSnap :: Player -> Game -> Game
-attemptSnap = withGameState attemptSnap'
+attemptSnap = withGameState (attemptSnap' (Snapping.isSnap (-1)))
               
 playCard :: Player -> Game -> Game
 playCard = withGameState playCard'
