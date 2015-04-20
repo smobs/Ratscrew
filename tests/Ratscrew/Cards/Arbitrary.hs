@@ -5,10 +5,10 @@ import Test.Tasty.QuickCheck
 
 
 instance Arbitrary Suit where
-    arbitrary = return Spades
+    arbitrary = oneof (map return [Diamonds .. Spades])
 
 instance Arbitrary Rank where
-    arbitrary = return Ace
+    arbitrary = oneof $ map return [Ace .. King]
 
 instance Arbitrary Card where
     arbitrary = do
