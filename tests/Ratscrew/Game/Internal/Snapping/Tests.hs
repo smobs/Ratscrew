@@ -18,7 +18,8 @@ properties =
               testGroup "QC Properties" 
                             [ testProperty "Empty list has no snaps" emptyProp
                             , testProperty "Dark queen on top always snaps" darkQueen
-                            , testProperty "Two side by side cards is a snap." normalSnap
+                            , testProperty "Two side by side cards with the same rank is a snap." normalSnap
+                            , testProperty "Two cards with the same rank one apart is a snap" sandwichSnap
                             ]
 
 emptyProp :: Int -> Bool
@@ -30,6 +31,11 @@ darkQueen i cs = fut i $ Card Queen Spades : cs
 normalSnap :: Int -> ([Card],[Card]) -> Rank -> (Suit, Suit) -> Bool
 normalSnap i d r = fut i . singleSnap d r
 
+sandwichSnap :: Int -> ([Card],Card,  [Card]) -> Rank -> (Suit, Suit) -> Bool
+sandwichSnap i d r = fut i . oneApart d r
+
+oneApart :: ([Card], Card, [Card]) -> Rank -> (Suit, Suit) -> [Card]
+oneApart (d1, c, d2) r (s1, s2) = d1 ++ [Card r s1, c, Card r s2] ++ d2
 
 singleSnap :: ([Card], [Card]) -> Rank -> (Suit, Suit) -> [Card]
 singleSnap (d1, d2)  r (s1, s2) = d1 ++ [Card r s1, Card r s2] ++ d2
