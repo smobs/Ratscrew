@@ -107,11 +107,11 @@ hasCards :: PlayerState -> Bool
 hasCards = not . null . view playerStack 
 
 dealHands :: Int -> Deck -> [[Card]]
-dealHands i = map (map snd)
+dealHands i d = take i $ (map (map snd)
               . L.groupBy (\(x,_) (y,_) -> x == y)
               . L.sortBy(\(x,_) (y, _) -> compare x y)
-              . zip [mod x i | x <- [0..]]
-    
+              . zip [mod x i | x <- [0..]] $ d) ++ repeat []
+
 newPlayerState :: [Card] -> PlayerState
 newPlayerState = PlayerState False
 

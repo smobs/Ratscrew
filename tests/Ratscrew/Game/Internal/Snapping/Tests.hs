@@ -62,6 +62,5 @@ singleSnap :: ([Card], [Card]) -> Rank -> (Suit, Suit) -> [Card]
 singleSnap (d1, d2)  r (s1, s2) = d1 ++ [Card r s1, Card r s2] ++ d2
 
 
-
 fut :: Int ->  [Card] -> Bool
 fut = Snapping.isSnap 

@@ -17,8 +17,8 @@ cabal-version:       >=1.10
 
 library 
   build-depends:       base >=4.7, mtl >=2.1, containers >=0.5, lens >=4.0
-  exposed-modules:     Ratscrew.Game, Ratscrew.Game.Internal, Ratscrew.Game.Internal.Snapping, Ratscrew.Cards
-  other-modules:       Ratscrew.Types
+  exposed-modules:     Ratscrew.Game, Ratscrew.Game.Internal, Ratscrew.Game.Internal.Snapping, Ratscrew.Cards,  Ratscrew.Types
+  --other-modules:      
   hs-source-dirs:      src
   default-language:    Haskell2010
 
@@ -31,7 +31,7 @@ executable Ratscrew
 
 test-suite Test-Ratscrew
   main-is:             Main.hs
-  build-depends:       base >=4.7,
+  build-depends:       base >=4.7, containers >= 0.5,
                        tasty, tasty-hunit, tasty-quickcheck, Ratscrew
   hs-source-dirs:      tests
   default-language:    Haskell2010
