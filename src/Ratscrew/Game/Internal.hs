@@ -56,10 +56,14 @@ hasSnap :: ([Card] -> Bool) -> GameState -> Bool
 hasSnap  f = f . view snapStack
                  
 playCard' :: Player -> GameState -> GameState
-playCard' p g = let c = playerTopCard p g in
-              case c of
-                Nothing -> g
-                Just card -> g & (addToStack card . removePlayerTopCard p) 
+playCard' p g = if Just p == (g ^. gameCurrentPlayer) 
+                then 
+                    let c = playerTopCard p g in
+                    case c of
+                      Nothing -> g
+                      Just card -> g & (addToStack card . removePlayerTopCard p) 
+                else
+                    givePenalty p g
     
 playerTopCard :: Player -> GameState -> Maybe Card
 playerTopCard p g = do
