@@ -3,7 +3,6 @@ module Ratscrew.Cards.Arbitrary where
 import Ratscrew.Cards
 import Test.Tasty.QuickCheck
 
-
 instance Arbitrary Suit where
     arbitrary = oneof (map return [Diamonds .. Spades])
 
