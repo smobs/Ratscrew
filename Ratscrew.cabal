@@ -16,7 +16,7 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 library 
-  build-depends:       base >=4.7, mtl >=2.1, containers >=0.5, lens >=4.0
+  build-depends:       base >=4.7, mtl >=2.1, containers >=0.5, lens >=4.11
   exposed-modules:     Ratscrew.Game, Ratscrew.Game.Internal, Ratscrew.Game.Internal.Snapping, Ratscrew.Cards,  Ratscrew.Types
   --other-modules:      
   hs-source-dirs:      src
@@ -25,9 +25,16 @@ library
 executable Ratscrew
   main-is:             Console.hs
   other-extensions:    RecordWildCards
-  build-depends:       base >=4.7, mtl >=2.1, containers >=0.5, lens >=4.0
+  build-depends:       base >=4.7, mtl >=2.1, containers >=0.5, lens >=4.11
   hs-source-dirs:      src
   default-language:    Haskell2010
+
+executable ScottyScrew
+  main-is:        Main.hs
+  other-extensions: OverloadedStrings
+  hs-source-dirs: scotty
+  build-depends:  base >= 4.7, scotty >= 0.9
+  default-language: Haskell2010
 
 test-suite Test-Ratscrew
   main-is:             Main.hs

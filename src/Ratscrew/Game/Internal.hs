@@ -70,7 +70,6 @@ playerTopCard p g = do
   PlayerState _ cs <- Map.lookup p (g ^. gamePlayers)
   M.listToMaybe cs
   
-
    
 removePlayerTopCard :: Player -> GameState -> GameState
 removePlayerTopCard p g = g & gamePlayers %~ Map.adjust removeCard p

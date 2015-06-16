@@ -1,4 +1,4 @@
-{ mkDerivation, base, containers, lens, mtl, stdenv, tasty
+{ mkDerivation, base, containers, lens, mtl, scotty, stdenv, tasty
 , tasty-hunit, tasty-quickcheck
 }:
 mkDerivation {
@@ -7,7 +7,9 @@ mkDerivation {
   src = ./.;
   isLibrary = true;
   isExecutable = true;
-  buildDepends = [ base containers lens mtl ];
-  testDepends = [ base tasty tasty-hunit tasty-quickcheck ];
+  buildDepends = [ base containers lens mtl scotty ];
+  testDepends = [
+    base containers tasty tasty-hunit tasty-quickcheck
+  ];
   license = stdenv.lib.licenses.mit;
 }

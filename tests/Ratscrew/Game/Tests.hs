@@ -30,6 +30,7 @@ newGameHasNoWinner ps = asMultiplayerGame ps $
 
 
 
+
 outOfTurnPlayIsPenalised :: Game -> Property
 outOfTurnPlayIsPenalised g = (length . players . gameView) g > 1 ==>
                              forAll (oneof $ map (\p -> return (p, playCard p g)) 

@@ -30,6 +30,7 @@ instance Arbitrary Game where
       commands <- listOf $ arbCommand ps
       return $ createGame ps commands
 
+
 newtype FinishedGame = MkGame {getGame :: Game} deriving Show
 
 instance Arbitrary FinishedGame where
@@ -37,6 +38,8 @@ instance Arbitrary FinishedGame where
       g <- arbitrary
       suchThat (return $ MkGame g) hasWinner
           where hasWinner = M.isJust . gameWinner . gameView . getGame
+
+
 createGame :: [Player] -> [GameCommand] -> Game
 createGame ps = foldr f (newGame ps) 
                where f (SnapCommand pl)  = attemptSnap pl
