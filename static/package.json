@@ -1,0 +1,24 @@
+{
+  "name": "Ratscrew",
+  "version": "0.0.0",
+  "description": "Ratscrew javascript ui",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Toby",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "gulp": "~3.9.0",
+    "react": "~0.13.3",
+    "browserify": "~10.2.4",
+    "react-tools": "~0.13.3"
+  },
+  "devDependencies": {
+    "jsxhint": "~0.15.1",
+    "jshint": "~2.8.0",
+    "reactify": "~1.1.1",
+    "watchify": "~3.2.2",
+    "vinyl-source-stream": "~1.1.0"
+  }
+}
