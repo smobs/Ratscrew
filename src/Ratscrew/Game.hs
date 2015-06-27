@@ -2,6 +2,7 @@
 module Ratscrew.Game
     (
      module Ratscrew.Types,
+     module Ratscrew.Cards,
      attemptSnap,
      gameView,
      playCard,

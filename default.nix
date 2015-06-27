@@ -1,5 +1,5 @@
-{ mkDerivation, base, containers, lens, mtl, scotty, stdenv, tasty
-, tasty-hunit, tasty-quickcheck, wai-middleware-static
+{ mkDerivation, aeson, base, containers, lens, mtl, scotty, stdenv
+, tasty, tasty-hunit, tasty-quickcheck, wai-middleware-static
 }:
 mkDerivation {
   pname = "Ratscrew";
@@ -8,7 +8,7 @@ mkDerivation {
   isLibrary = true;
   isExecutable = true;
   buildDepends = [
-    base containers lens mtl scotty wai-middleware-static
+    aeson base containers lens mtl scotty wai-middleware-static
   ];
   testDepends = [
     base containers tasty tasty-hunit tasty-quickcheck

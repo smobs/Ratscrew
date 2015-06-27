@@ -17,7 +17,7 @@ var CurrentState = React.createClass({
 var PlayerState = React.createClass({
     render: function() {
         return (
-            <p>Player {this.props.playerState.name} has {this.props.playerState.cards} cards left</p>            
+            <p>Player {this.props.playerState.name} has {this.props.playerState.cards} cards left</p>
         );
     }
 });
