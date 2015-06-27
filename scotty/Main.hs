@@ -20,7 +20,9 @@ handlers ref =
            do
              get "/" (file "static/index.html")
              get "/gameState" (viewGame ref)
-             get "/playCard" (playCardAction ref)
+             get "/playCard/:name" $ do
+               playerName <- param  "name"
+               (playCardAction playerName ref)
 
 
 viewGame :: IORef Game -> ActionM ()
@@ -28,9 +30,9 @@ viewGame ref = do
   game <- liftIO $ readIORef ref
   json (gameView game)
 
-playCardAction :: IORef Game -> ActionM ()
-playCardAction ref = do 
-  liftIO $ modifyIORef ref (playCard (Player "Toby"))
+playCardAction :: String -> IORef Game -> ActionM ()
+playCardAction player ref = do 
+  liftIO $ modifyIORef ref (playCard (Player player))
   viewGame ref
 staticFileServer = staticPolicy p
                    where p = addBase "static"
