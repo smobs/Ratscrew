@@ -6,37 +6,54 @@ import Network.Wai.Middleware.Static
 import Ratscrew.Game
 import Data.IORef
 import Data.Aeson (ToJSON, toJSON, object, (.=))
+import Control.Monad.IO.Class
 
 main :: IO ()
-main = scotty 3000 $ do
+main = do
+    ref <- newIORef $ newGame [Player "Toby", Player "Mike"]
+    scotty 3000 $ do
          middleware staticFileServer 
-         handlers
+         handlers ref
 
-handlers :: ScottyM ()
-handlers =
+handlers :: IORef Game -> ScottyM ()
+handlers ref =
            do
              get "/" (file "static/index.html")
-             get "/gameState" (json (gameView $ newGame [Player "Toby", Player "Mike"]))
+             get "/gameState" (viewGame ref)
+             get "/playCard" (playCardAction ref)
+
+
+viewGame :: IORef Game -> ActionM ()
+viewGame ref = do
+  game <- liftIO $ readIORef ref
+  json (gameView game)
+
+playCardAction :: IORef Game -> ActionM ()
+playCardAction ref = do 
+  liftIO $ modifyIORef ref (playCard (Player "Toby"))
+  viewGame ref
 staticFileServer = staticPolicy p
                    where p = addBase "static"
 
 instance ToJSON GameView where
-    toJSON (GameView winner topCard currentCount stackSize players currentPlayer playLog) 
-        = object ["gameWinner" .= toJSON winner
-                 , "topCard" .= toJSON topCard
-                 , "currentCount" .= toJSON currentCount
-                 , "stackSize" .= toJSON stackSize
-                 , "players" .= toJSON players
-                 , "currentPlayer" .= toJSON currentPlayer
-                 , "playLog" .= toJSON playLog
+    toJSON (GameView winner tc count size ps current pl) 
+        = object ["gameWinner" .= winner
+                 , "topCard" .= tc
+                 , "currentCount" .= count
+                 , "stackSize" .= size
+                 , "players" .=  ps
+                 , "currentPlayer" .= current
+                 , "playLog" .= pl
                  ]
 
 instance ToJSON Player where
-    toJSON x = object []
+    toJSON (Player s) = toJSON s
+
 instance ToJSON Card where
-    toJSON x = object []
+    toJSON (Card r s) = object ["suit" .= show s, "rank" .= show r]
+
 instance ToJSON PlayerView where
-    toJSON x = object []
+    toJSON (PlayerView name stackCount isPenalised) = object ["name" .= name, "cards" .= stackCount, "hasPenalty" .= isPenalised]
 
 {--var data = {
     gameWinner : "Toby",
