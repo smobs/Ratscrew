@@ -12,7 +12,8 @@
     "gulp": "~3.9.0",
     "react": "~0.13.3",
     "browserify": "~10.2.4",
-    "react-tools": "~0.13.3"
+    "react-tools": "~0.13.3",
+    "underscore": "~1.8.3"
   },
   "devDependencies": {
     "jsxhint": "~0.15.1",

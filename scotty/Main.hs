@@ -10,8 +10,8 @@ main = scotty 3000 $ do
          handlers
 
 handlers :: ScottyM ()
-handlers = get "/hello" $ 
-             html $ mconcat ["Hello ", " world"]
+handlers = get "/" $ 
+             file "static/index.html"
 
 staticFileServer = staticPolicy p
                    where p = addBase "static"
