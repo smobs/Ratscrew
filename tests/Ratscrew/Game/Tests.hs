@@ -18,6 +18,7 @@ properties :: TestTree
 properties = testGroup "Properties" [testProperty "New Game has no winner" newGameHasNoWinner
                                     , testProperty "View has all players" viewHasAllPlayers
                                     , testProperty "Out of turn play is penalised" outOfTurnPlayIsPenalised
+                                    , testProperty "There is always a current player" alwaysACurrentPlayer
                                     ]
 
 viewHasAllPlayers :: [Player] -> Property
@@ -29,7 +30,8 @@ newGameHasNoWinner ps = asMultiplayerGame ps $
                         (Nothing ===) .  gameWinner . gameView . newGame
 
 
-
+alwaysACurrentPlayer :: Game -> Bool
+alwaysACurrentPlayer  = (Nothing /=) . currentPlayer . gameView
 
 outOfTurnPlayIsPenalised :: Game -> Property
 outOfTurnPlayIsPenalised g = (length . players . gameView) g > 1 ==>
