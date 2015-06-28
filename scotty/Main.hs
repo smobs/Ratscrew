@@ -11,7 +11,7 @@ import System.Environment
 
 main :: IO ()
 main = do
-  port <- getEnv "Port"
+  port <- getEnv "PORT"
   ref <- newIORef $ newGame [Player "Toby", Player "Mike"]
   scotty (read port) $ do
          middleware staticFileServer 
