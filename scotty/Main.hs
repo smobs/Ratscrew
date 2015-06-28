@@ -7,11 +7,13 @@ import Ratscrew.Game
 import Data.IORef
 import Data.Aeson (ToJSON, toJSON, object, (.=))
 import Control.Monad.IO.Class
+import System.Environment
 
 main :: IO ()
 main = do
-    ref <- newIORef $ newGame [Player "Toby", Player "Mike"]
-    scotty 3000 $ do
+  port <- getEnv "Port"
+  ref <- newIORef $ newGame [Player "Toby", Player "Mike"]
+  scotty (read port) $ do
          middleware staticFileServer 
          handlers ref
 
