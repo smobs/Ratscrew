@@ -12,7 +12,7 @@ import System.Environment
 main :: IO ()
 main = do
   port <- getEnv "PORT"
-  ref <- newIORef $ newGame [Player "Toby", Player "Mike"]
+  ref <- newIORef $ newGame [Player "Toby", Player "Jenny"]
   scotty (read port) $ do
          middleware staticFileServer 
          handlers ref
