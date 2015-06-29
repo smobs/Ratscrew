@@ -6,7 +6,7 @@ var reactify = require('reactify');
 
 var getBundler = function () {
     return browserify({
-        entries: ['./app/main.jsx'],
+        entries: ['./static/app/main.jsx'],
         transform: [reactify],
         debug: true,
         cache: {}, packageCache: {}, fullPaths: true
@@ -16,7 +16,7 @@ var getBundler = function () {
 var bundleAndStream = function (bundler) {
     return bundler.bundle()
                 .pipe(source('main.js'))
-                .pipe(gulp.dest('./build/'));
+                .pipe(gulp.dest('./static/build/'));
        
 };
 gulp.task('browserify', function () {
