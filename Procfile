@@ -1,2 +1,1 @@
 web: cabal run ScottyScrew
- 
