@@ -11,7 +11,8 @@ import System.Environment
 
 main :: IO ()
 main = do
-  port <- getEnv "PORT"
+  env <- getEnvironment
+  let port = maybe "8080" read $ lookup "PORT" env
   ref <- newIORef $ newGame [Player "Toby", Player "Jenny"]
   scotty (read port) $ do
          middleware staticFileServer 
@@ -22,9 +23,13 @@ handlers ref =
            do
              get "/" (file "static/index.html")
              get "/gameState" (viewGame ref)
-             get "/playCard/:name" $ do
+             get "/playCard/:name" ( do
                playerName <- param  "name"
-               (playCardAction playerName ref)
+               (playCardAction playerName ref))
+             get "/snap/:name" $ do
+               playerName <- param "name"
+               (snapAction playerName ref)
+               
 
 
 viewGame :: IORef Game -> ActionM ()
@@ -36,6 +41,12 @@ playCardAction :: String -> IORef Game -> ActionM ()
 playCardAction player ref = do 
   liftIO $ modifyIORef ref (playCard (Player player))
   viewGame ref
+
+snapAction :: String -> IORef Game -> ActionM ()
+snapAction player ref = do
+  liftIO $ modifyIORef ref (attemptSnap (Player player))
+  viewGame ref
+
 staticFileServer = staticPolicy p
                    where p = addBase "static"
 
@@ -59,19 +70,3 @@ instance ToJSON Card where
 instance ToJSON PlayerView where
     toJSON (PlayerView name stackCount isPenalised) = object ["name" .= name, "cards" .= stackCount, "hasPenalty" .= isPenalised]
 
-{--var data = {
-    gameWinner : "Toby",
-    topCard : {
-        suit : "Spades",
-        rank : "Queen"
-    },
-    currentCount : 2,
-    stackSize : 1,
-    players : [
-        {name: "Toby", cards: 20},
-        {name: "Mike", cards: 11}
-    ],
-    currentPlayer : "Toby",
-    playLog : []
-};
---}
