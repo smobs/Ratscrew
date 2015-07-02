@@ -55,8 +55,7 @@ inProgressView (GameView {..}) =
                             [ maybe "Empty stack" (("Top Card: " ++).show) topCard
                             , maybe "Count not started" (("Count: " ++) . show) currentCount
                             , "Cards in stack: " ++ show stackSize
-                            , maybe "No players able to play"
-                                        (("Current player: " ++) . show) currentPlayer
+                            , (("Current player: " ++) . show) currentPlayer
                             ]
 
 getPlayers :: [Player]
