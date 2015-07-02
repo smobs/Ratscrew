@@ -33,8 +33,8 @@ gameView :: Game -> GameView
 gameView (Game g) = gameView' g
 
 newGame :: [Player] -> Game
-newGame p = let d = fullDeck in
-            Game (MkGameState [] (newPlayers p d) Nothing Nothing)
+newGame = let d = fullDeck in
+            Game . newGameState d
 
 withGameState ::(a -> GameState -> GameState) -> a -> Game -> Game 
 withGameState f p = gameState %~ f p

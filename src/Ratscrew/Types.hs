@@ -22,7 +22,7 @@ data GameView = GameView {
              currentCount :: Maybe Int,
              stackSize :: Int,
              players :: [PlayerView],
-             currentPlayer :: Maybe Player,
+             currentPlayer :: Player,
              playLog :: [String]
            }
               deriving (Show, Typeable)

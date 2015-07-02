@@ -23,7 +23,7 @@ data PlayerState = PlayerState {_penalised :: Bool,
 data GameState = MkGameState {
       _snapStack :: [Card],
       _gamePlayers:: Map Player PlayerState,
-      _gameCurrentPlayer :: Maybe Player,
+      _gameCurrentPlayer ::Player,
       _gameCurrentCount :: Maybe Int
     }
                
@@ -56,7 +56,7 @@ hasSnap :: ([Card] -> Bool) -> GameState -> Bool
 hasSnap  f = f . view snapStack
                  
 playCard' :: Player -> GameState -> GameState
-playCard' p g = if Just p == (g ^. gameCurrentPlayer) 
+playCard' p g = if p == (g ^. gameCurrentPlayer) 
                 then 
                     let c = playerTopCard p g in
                     case c of
@@ -118,3 +118,6 @@ dealHands i d = take i $ (map (map snd)
 newPlayerState :: [Card] -> PlayerState
 newPlayerState = PlayerState False
 
+newGameState :: [Card] -> [Player] -> GameState
+newGameState d p = let pl = newPlayers p d in
+    MkGameState [] pl (fst . head . Map.toList $  pl) Nothing
