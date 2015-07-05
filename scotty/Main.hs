@@ -5,6 +5,7 @@ import Web.Scotty
 import Network.Wai.Middleware.Static
 import Ratscrew.Game
 import Data.IORef
+import Data.Maybe (fromMaybe) 
 import Data.Aeson (ToJSON, toJSON, object, (.=))
 import Control.Monad.IO.Class
 import System.Environment
@@ -12,7 +13,7 @@ import System.Environment
 main :: IO ()
 main = do
   env <- getEnvironment
-  let port = maybe "8080" read $ lookup "PORT" env
+  let port = fromMaybe "8080" $ lookup "PORT" env
   ref <- newIORef $ newGame [Player "Toby", Player "Jenny"]
   scotty (read port) $ do
          middleware staticFileServer 
